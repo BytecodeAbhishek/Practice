@@ -1,3 +1,5 @@
+
+import java.util.*;
 import java.util.Scanner;
 
 public class BinaryTree {
@@ -6,14 +8,15 @@ public class BinaryTree {
     public static void main(String[] args) {
         sc = new Scanner(System.in);
         Node root = createTree();
-        inOrder(root);
-        System.out.println();
-        preOrder(root);
-        System.out.println();
-        postOrder(root);
-        System.out.println();
-        System.out.println(size(root));
-        System.out.println(max(root));
+//        inOrder(root);
+//        System.out.println();
+//        preOrder(root);
+//        System.out.println();
+//        postOrder(root);
+//        System.out.println();
+//        System.out.println(size(root));
+//        System.out.println(max(root));
+        printLeftView(root);
     }
     // to define the type of data
     static Node createTree(){
@@ -63,6 +66,97 @@ public class BinaryTree {
         int ans = 0;
         ans = Math.max(root.data, Math.max(max(root.left) , max(root.right)));
         return ans;
+    }
+    static void printLeftViewUtil(Node root , ArrayList list, int level){
+        if(root == null) return;
+        // checking the current index is null opr not (gave raw use exception)
+        if(level >= list.size()) list.add(root);
+        printLeftViewUtil(root.left,list,level+1);
+        printLeftViewUtil(root.right,list,level+1);
+    }
+    static void printLeftView(Node root){
+        ArrayList<Node> list = new ArrayList<>();
+        printLeftViewUtil(root,list,0);
+        for(Node curr : list) System.out.println(curr.data+" ");
+    }
+    static void printRightViewUtil(Node root , List<Integer> list, int level){
+        if(root == null) return;
+        if (level == list.size()) {
+            list.add(root.data);
+        } else {
+            list.set(level, root.data);
+        }
+        printRightViewUtil(root.left,list,level+1);
+        printRightViewUtil(root.right,list,level+1);
+    }
+    static List<Integer> preorder(Node root){
+        List<Integer> list = new ArrayList<>();
+        if(root == null){
+            List<Integer> ans = new ArrayList<>();
+            return ans;
+        }
+        list.add(root.data);
+        preorder(root.left);
+        preorder(root.right);
+        return list;
+    }
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        Queue<Pair> q = new ArrayDeque<>();
+        Map<Integer,Integer> map = new TreeMap<>();
+        q.add(new Pair(0,root));
+        while(!q.isEmpty()){
+            Pair curr = q.poll();
+            map.put(curr.hd,curr.node.data);
+            if(curr.node.left != null) q.add(new Pair(curr.hd-1,curr.node.left));
+            if(curr.node.right != null) q.add(new Pair(curr.hd+1,curr.node.right));
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()){
+            list.add(entry.getValue());
+        }
+        return list;
+    }
+    static ArrayList<Integer> topView(Node root)
+    {
+        Queue<Pair> q = new ArrayDeque<>();
+        Map<Integer, Integer> map = new TreeMap<>();
+        q.add(new Pair(0,root));
+        while(!q.isEmpty()){
+            Pair p = q.poll();
+            if(!map.containsKey(p.hd)){
+                map.put(p.hd,p.node.data);
+            }
+            if(p.node.left != null) q.add(new Pair(p.hd-1,p.node.left));
+            if(p.node.right != null) q.add(new Pair(p.hd+1,p.node.right));
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()){
+            list.add(entry.getValue());
+        }
+        return list;
+    }
+    static class Pair{
+        int hd;
+        Node node;
+        public Pair(int hd , Node node){
+            this.hd = hd;
+            this.node = node;
+        }
+    }
+    // conversion of Binary tree to Dll in inorder
+    Node head = null;
+    Node prev = null;
+    void convertDll(Node root){
+        if(root == null) return;
+        convertDll(root.left);
+        if(prev == null) head = root;
+        else{
+            root.left = prev;
+            prev.right = root;
+        }
+        prev = root;
+        convertDll(root.right);
     }
 }
 class Node{
