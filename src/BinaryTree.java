@@ -158,6 +158,15 @@ public class BinaryTree {
         prev = root;
         convertDll(root.right);
     }
+    // diameter is the max distance between two leaf node of the binary tree
+    int diameter(Node root){
+        if(root == null) return 0;
+        int dl = diameter(root.left);
+        int dr = diameter(root.right);
+        int curr = height(root.left) + height(root.right);
+        return Math.max(curr,Math.max(dl,dr));
+    }
+
 }
 class Node{
     Node left , right;
