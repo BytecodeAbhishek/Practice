@@ -166,7 +166,52 @@ public class BinaryTree {
         int curr = height(root.left) + height(root.right);
         return Math.max(curr,Math.max(dl,dr));
     }
-
+    // Lowest Common ancestor in a binary tree
+    static Node lca(Node root , int a , int b){
+        if(root == null) return null;
+        if(root.data == a || root.data == b) return root;
+        Node left = lca(root.left,a,b);
+        Node right = lca(root.right,a,b);
+        if(left == null) return right;
+        if(right == null) return left;
+        return root;
+    }
+    // Time to burn a tree from a leaf node
+    // wrapper class to pass the reference of depth
+    static class Depth{
+        int d;
+        public Depth(int d){
+            this.d = d;
+        }
+    }
+    // implementation
+    static int ans = -1;
+    static int burningTree(Node root , int target){
+        Depth depth = new Depth(-1);
+        burn(root,target,depth);
+        return ans;
+    }
+    // this function will calculate the height as well a teh answer
+    static int burn(Node root , int target , Depth depth){
+       if(root == null) return 0;
+       if(root.data == target){
+           depth.d =0;
+           return 0;
+       }
+       Depth ld = new Depth(-1);
+       Depth rd = new Depth(-1);
+       int lh = burn(root.left,target,ld);
+       int rh = burn(root.right,target,rd);
+       if(ld.d != -1){
+           ans = Math.max(ans,ld.d+1+rh);
+           depth.d = ld.d +1;
+       }
+       if (rd.d != -1){
+           ans = Math.max(ans,rd.d+1+lh);
+           depth.d = rd.d+1;
+       }
+       return Math.max(lh,rh)+1;
+    }
 }
 class Node{
     Node left , right;
