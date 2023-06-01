@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class BinarySearchTree {
     // Function to search a node in BST.
     boolean search(Node root, int x) {
@@ -58,6 +61,34 @@ public class BinarySearchTree {
     //     return isValid(root.left,min,root.data) &&
     //             isValid(root.right,root.data,max);
     // }
+
+    // Function to find ceil and floor
+    private static int floor(Node root , int key){
+      int ans = Integer.MAX_VALUE;
+      // ceil is jst the opposite
+      while(root != null){
+          if(root.data == key) return root.data;
+          else if(root.data > key) root = root.left;
+          else {
+              ans = root.data;
+              root = root.right;
+          }
+      }
+      return ans;
+    }
+    // function to find if pair is present in the bst or not
+    private static int pair(Node root , int sum){
+        Set<Integer> set = new HashSet<>();
+        boolean ans = pairUtil(root,sum,set);
+        return ans ? 1:0;
+    }
+    private static boolean pairUtil(Node root , int sum , Set<Integer> set){
+        if(root == null) return false;
+        if(pairUtil(root.left,sum,set)) return true;
+        if(set.contains(sum-root.data)) return true;
+        set.add(root.data);
+        return pairUtil(root.right,sum,set);
+    }
 
     private static int minValue(Node root){
         int value = 0;
