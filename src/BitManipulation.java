@@ -1,6 +1,7 @@
 public class BitManipulation {
     public static void main(String[] args) {
-
+      int[] arr = {1,1,1,2,3,3,3};
+        System.out.println(nonRepeated(arr));
     }
     // method to find no of 1 bits in a number
     public int numSetBits(long a) {
@@ -39,4 +40,24 @@ public class BitManipulation {
         }
         return count;
     }
+    // method to find a non repeating element where every element repeats twice
+    private static int nonRepeated(int[] arr){
+        int[] bits = new int[32];
+        for(int num : arr){
+            int count =0;
+            while(num > 0){
+                bits[count++] += num&1;
+                num >>=1;
+            }
+        }
+        for(int i=0; i<bits.length; i++){
+            bits[i] = bits[i]%3;
+        }
+        int ans = 0;
+        for(int i=0; i< bits.length; i++){
+            ans += (int)Math.pow(2,i)*bits[i];
+        }
+        return ans;
+    }
+
 }
