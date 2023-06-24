@@ -27,4 +27,22 @@ public class CoinChange{
             count1(p+arr[i] ,arr, sum-arr[i]);
         }
     }
+    // min coins required to form the sequence
+    private static long minCoins(int[] coins , long[] dp , int sum){
+        if(sum == 0) return 0;
+        long ans = Long.MAX_VALUE;
+        for(int i=0; i<coins.length; i++){
+            if(sum - coins[i] >= 0){
+                long subAns = 0;
+                if(dp[sum-coins[i]] != -1){
+                    subAns = dp[sum-coins[i]];
+                }else{
+                    subAns = minCoins(coins,dp,sum-coins[i]);
+                }
+                // tree m sabse chota hamara ans hoga
+                if(subAns +1 < ans) ans = subAns+1;
+            }
+        }
+        return dp[sum] = ans;
+    }
 }
