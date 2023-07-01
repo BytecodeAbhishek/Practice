@@ -1,8 +1,8 @@
 public class CountOfSubsetOfGivenSum {
     public static void main(String[] args) {
-        int[] arr = {2,3,5,6,8,10};
-        System.out.println(countSubset(arr,17));
-        System.out.println(count(arr,17,0,0));
+        int[] arr = {2,3,5,6,7,8};
+        System.out.println(countSubset(arr,10));
+        System.out.println(count(arr,10,0,0));
     }
     private static int countSubset(int[] arr , int sum){
         int[][] dp = new int[arr.length+1][sum+1];
@@ -13,7 +13,7 @@ public class CountOfSubsetOfGivenSum {
             }
         }
         for(int i=1; i< dp.length; i++){
-            for(int j=1; j<dp[0].length; j++){
+            for(int j=0; j<dp[0].length; j++){
                 if(arr[i-1] <= j)
                     dp[i][j] = dp[i-1][j-arr[i-1]] + dp[i-1][j];
                 else
@@ -28,7 +28,7 @@ public class CountOfSubsetOfGivenSum {
             if(currSum == sum) return 1;
             return 0;
         }
-        if(currSum == sum) return 1;
+        //if(currSum == sum) return 1; this condition is wrong never use it
         if(arr[index] <= sum){
             return count(arr,sum,currSum+arr[index],index+1)+count(arr,sum,currSum,index+1);
         }

@@ -1,14 +1,14 @@
 public class SubsetSumProblem {
     public static void main(String[] args) {
      // problem is find any subset in the array that is equal to the sum
-        int[] arr = {2,3,7,8,10};
-        System.out.println(equalSum(arr,14));
-        System.out.println(sum(arr,12,0));
+        int[] arr = {0,1};
+        System.out.println(equalSum(arr,1));
+        System.out.println(sum(arr,11,0));
     }
     // Recursive code
     private static boolean sum(int[] arr , int sum , int index){
         if(index == arr.length) return sum ==0;
-        if(sum == 0) return true;
+        //if(sum == 0) return true;
         if(arr[index] <= sum)
             return sum(arr,sum-arr[index],index+1) || sum(arr,sum,index+1);
         else
