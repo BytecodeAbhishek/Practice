@@ -45,7 +45,7 @@ public class BitManipulation {
         int[] bits = new int[32];
         for(int num : arr){
             int count =0;
-            while(num > 0){
+            while(num != 0){
                 bits[count++] += num&1;
                 num >>=1;
             }

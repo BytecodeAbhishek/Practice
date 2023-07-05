@@ -16,6 +16,7 @@ public class RotatedArrayRecursion {
             if ( target >= arr[start] && arr[m] >= target ){
                 return search(arr,target,start,m-1);
             }
+            return search(arr,target,m+1,end);
         }
         if ( target >= arr[m] && target <=arr[end]){
             return search(arr,target,m+1,end);
