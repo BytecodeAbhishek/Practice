@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class PalindromePartitioning {
     public static void main(String[] args) {
-        String s = "nitik";
+        String s = "dVGAaVO25EmT6W3zSTEA0k12i64Kkmmli09Kb4fArlF4Gc2PknrlkevhROxUg";
         System.out.println(pp(s,0,s.length()-1));
         int[][] dp = new int[s.length()][s.length()];
         for(int[] row : dp) Arrays.fill(row,-1);
@@ -49,7 +49,7 @@ public class PalindromePartitioning {
             if(dp[i][k] != -1) left = dp[i][k];
             else{
                 left = ppOptimised(s,i,k,dp);
-                dp[i][k] = right;
+                dp[i][k] = left;
             }
 
             if(dp[k+1][j] != -1) right = dp[k+1][j];
